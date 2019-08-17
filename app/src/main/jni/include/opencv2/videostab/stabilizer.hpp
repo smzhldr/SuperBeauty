@@ -51,7 +51,6 @@
 #include "opencv2/videostab/motion_stabilizing.hpp"
 #include "opencv2/videostab/frame_source.hpp"
 #include "opencv2/videostab/log.hpp"
-#include "opencv2/videostab/inpainting.hpp"
 #include "opencv2/videostab/deblurring.hpp"
 #include "opencv2/videostab/wobble_suppression.hpp"
 
@@ -92,8 +91,6 @@ public:
     void setBorderMode(int val) { borderMode_ = val; }
     int borderMode() const { return borderMode_; }
 
-    void setInpainter(Ptr<InpainterBase> val) { inpainter_ = val; }
-    Ptr<InpainterBase> inpainter() const { return inpainter_; }
 
 protected:
     StabilizerBase();
@@ -112,7 +109,6 @@ protected:
     Ptr<IFrameSource> frameSource_;
     Ptr<ImageMotionEstimatorBase> motionEstimator_;
     Ptr<DeblurerBase> deblurer_;
-    Ptr<InpainterBase> inpainter_;
     int radius_;
     float trimRatio_;
     bool doCorrectionForInclusion_;

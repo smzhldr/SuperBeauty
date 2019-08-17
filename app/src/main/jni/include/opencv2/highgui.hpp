@@ -48,7 +48,6 @@
 #include "opencv2/imgcodecs.hpp"
 #endif
 #ifdef HAVE_OPENCV_VIDEOIO
-#include "opencv2/videoio.hpp"
 #endif
 
 /**
