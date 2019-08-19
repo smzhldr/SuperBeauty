@@ -200,20 +200,13 @@ if (NOT TARGET dlib)
 
    set(source_files 
       base64/base64_kernel_1.cpp
-      bigint/bigint_kernel_1.cpp
-      bigint/bigint_kernel_2.cpp
-      bit_stream/bit_stream_kernel_1.cpp
       entropy_decoder/entropy_decoder_kernel_1.cpp
       entropy_decoder/entropy_decoder_kernel_2.cpp
       entropy_encoder/entropy_encoder_kernel_1.cpp
       entropy_encoder/entropy_encoder_kernel_2.cpp
-      md5/md5_kernel_1.cpp
       tokenizer/tokenizer_kernel_1.cpp
       unicode/unicode.cpp
-      data_io/image_dataset_metadata.cpp
       data_io/mnist.cpp
-      global_optimization/global_function_search.cpp
-      filtering/kalman_filter.cpp
       test_for_odr_violations.cpp
       )
 
@@ -226,24 +219,8 @@ if (NOT TARGET dlib)
    else()
 
       set(source_files ${source_files}
-         sockets/sockets_kernel_1.cpp
-         bsp/bsp.cpp
-         dir_nav/dir_nav_kernel_1.cpp
-         dir_nav/dir_nav_kernel_2.cpp
-         dir_nav/dir_nav_extensions.cpp
-         linker/linker_kernel_1.cpp
-         logger/extra_logger_headers.cpp
-         logger/logger_kernel_1.cpp
-         logger/logger_config_file.cpp
          misc_api/misc_api_kernel_1.cpp
          misc_api/misc_api_kernel_2.cpp
-         sockets/sockets_extensions.cpp
-         sockets/sockets_kernel_2.cpp
-         sockstreambuf/sockstreambuf.cpp
-         sockstreambuf/sockstreambuf_unbuffered.cpp
-         server/server_kernel.cpp
-         server/server_iostream.cpp
-         server/server_http.cpp
          threads/multithreaded_object_extension.cpp
          threads/threaded_object_extension.cpp
          threads/threads_kernel_1.cpp
@@ -251,10 +228,8 @@ if (NOT TARGET dlib)
          threads/threads_kernel_shared.cpp
          threads/thread_pool_extension.cpp
          threads/async.cpp
-         timer/timer.cpp
          stack_trace.cpp
-         dnn/cpu_dlib.cpp
-         dnn/tensor_tools.cpp
+
          )
 
       if(UNIX)
@@ -321,12 +296,6 @@ if (NOT TARGET dlib)
             set (dlib_needed_libraries ${dlib_needed_libraries} ${nsllib})
          endif ()
 
-         # link to the socket library if it exists.  this is something you need on solaris
-         find_library(socketlib socket)
-         if (socketlib)
-            set (dlib_needed_libraries ${dlib_needed_libraries} ${socketlib})
-         endif ()
-
          if (NOT DLIB_NO_GUI_SUPPORT)
             include(FindX11)
             if (X11_FOUND)
@@ -343,19 +312,11 @@ if (NOT TARGET dlib)
             endif()
          endif()
 
-         mark_as_advanced(nsllib pthreadlib socketlib)
       endif () ##################################################################################
 
       if (NOT DLIB_NO_GUI_SUPPORT)
          set(source_files ${source_files}
-            gui_widgets/fonts.cpp
-            gui_widgets/widgets.cpp
-            gui_widgets/drawable.cpp
-            gui_widgets/canvas_drawing.cpp
-            gui_widgets/style.cpp
-            gui_widgets/base_widgets.cpp
-            gui_core/gui_core_kernel_1.cpp
-            gui_core/gui_core_kernel_2.cpp
+
             )
       endif()
 
@@ -387,56 +348,13 @@ if (NOT TARGET dlib)
             set(REQUIRES_LIBS " libpng")
          else()
             # If we can't find libpng then statically compile it in.
-            include_directories(external/libpng external/zlib)
-            set(source_files ${source_files}
-               external/libpng/png.c
-               external/libpng/pngerror.c
-               external/libpng/pngget.c
-               external/libpng/pngmem.c
-               external/libpng/pngpread.c
-               external/libpng/pngread.c
-               external/libpng/pngrio.c
-               external/libpng/pngrtran.c
-               external/libpng/pngrutil.c
-               external/libpng/pngset.c
-               external/libpng/pngtrans.c
-               external/libpng/pngwio.c
-               external/libpng/pngwrite.c
-               external/libpng/pngwtran.c
-               external/libpng/pngwutil.c
-               external/zlib/adler32.c
-               external/zlib/compress.c
-               external/zlib/crc32.c
-               external/zlib/deflate.c
-               external/zlib/gzclose.c
-               external/zlib/gzlib.c
-               external/zlib/gzread.c
-               external/zlib/gzwrite.c
-               external/zlib/infback.c
-               external/zlib/inffast.c
-               external/zlib/inflate.c
-               external/zlib/inftrees.c
-               external/zlib/trees.c
-               external/zlib/uncompr.c
-               external/zlib/zutil.c
-               )
-
-            include(cmake_utils/check_if_neon_available.cmake)
             if (ARM_NEON_IS_AVAILABLE)
                message (STATUS "NEON instructions will be used for libpng.")
                enable_language(ASM)
-               set(source_files ${source_files}
-                  external/libpng/arm/arm_init.c
-                  external/libpng/arm/filter_neon_intrinsics.c
-                  external/libpng/arm/filter_neon.S
-                  )
-               set_source_files_properties(external/libpng/arm/filter_neon.S PROPERTIES COMPILE_FLAGS "${CMAKE_ASM_FLAGS} ${CMAKE_CXX_FLAGS} -x assembler-with-cpp")
             endif()
             set(REQUIRES_LIBS "")
          endif()
          set(source_files ${source_files}
-            image_loader/png_loader.cpp
-            image_saver/save_png.cpp
             )
       endif()
 
@@ -455,57 +373,8 @@ if (NOT TARGET dlib)
             set (dlib_needed_libraries ${dlib_needed_libraries} ${JPEG_LIBRARY})
          else()
             # If we can't find libjpeg then statically compile it in.
-            add_definitions(-DDLIB_JPEG_STATIC)
-            set(source_files ${source_files}
-               external/libjpeg/jcomapi.cpp
-               external/libjpeg/jdapimin.cpp
-               external/libjpeg/jdapistd.cpp
-               external/libjpeg/jdatasrc.cpp
-               external/libjpeg/jdcoefct.cpp
-               external/libjpeg/jdcolor.cpp
-               external/libjpeg/jddctmgr.cpp
-               external/libjpeg/jdhuff.cpp
-               external/libjpeg/jdinput.cpp
-               external/libjpeg/jdmainct.cpp
-               external/libjpeg/jdmarker.cpp
-               external/libjpeg/jdmaster.cpp
-               external/libjpeg/jdmerge.cpp
-               external/libjpeg/jdphuff.cpp
-               external/libjpeg/jdpostct.cpp
-               external/libjpeg/jdsample.cpp
-               external/libjpeg/jerror.cpp
-               external/libjpeg/jidctflt.cpp
-               external/libjpeg/jidctfst.cpp
-               external/libjpeg/jidctint.cpp
-               external/libjpeg/jidctred.cpp
-               external/libjpeg/jmemmgr.cpp
-               external/libjpeg/jmemnobs.cpp
-               external/libjpeg/jquant1.cpp
-               external/libjpeg/jquant2.cpp
-               external/libjpeg/jutils.cpp  
-               external/libjpeg/jcapimin.cpp
-               external/libjpeg/jdatadst.cpp
-               external/libjpeg/jcparam.cpp
-               external/libjpeg/jcapistd.cpp
-               external/libjpeg/jcmarker.cpp
-               external/libjpeg/jcinit.cpp
-               external/libjpeg/jcmaster.cpp
-               external/libjpeg/jcdctmgr.cpp
-               external/libjpeg/jccoefct.cpp  
-               external/libjpeg/jccolor.cpp  
-               external/libjpeg/jchuff.cpp  
-               external/libjpeg/jcmainct.cpp  
-               external/libjpeg/jcphuff.cpp  
-               external/libjpeg/jcprepct.cpp  
-               external/libjpeg/jcsample.cpp
-               external/libjpeg/jfdctint.cpp
-               external/libjpeg/jfdctflt.cpp
-               external/libjpeg/jfdctfst.cpp
-               )
          endif()
          set(source_files ${source_files}
-            image_loader/jpeg_loader.cpp
-            image_saver/save_jpeg.cpp
             )
       endif()
 
@@ -655,14 +524,7 @@ if (NOT TARGET dlib)
          endif()
 
          if (CUDA_FOUND AND cudnn AND (NOT USING_OLD_VISUAL_STUDIO_COMPILER) AND cuda_test_compile_worked AND cudnn_test_compile_worked AND cudnn_include)
-            set(source_files ${source_files} 
-               dnn/cuda_dlib.cu 
-               dnn/cudnn_dlibapi.cpp
-               dnn/cublas_dlibapi.cpp
-               dnn/cusolver_dlibapi.cu
-               dnn/curand_dlibapi.cpp
-               dnn/cuda_data_ptr.cpp
-               dnn/gpu_data.cpp
+            set(source_files ${source_files}
                )
             set(dlib_needed_libraries ${dlib_needed_libraries} 
                ${CUDA_CUBLAS_LIBRARIES} 

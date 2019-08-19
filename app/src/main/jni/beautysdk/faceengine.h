@@ -10,14 +10,7 @@
 
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/image_processing.h>
-#include <dlib/image_io.h>
 #include <dlib/opencv/cv_image.h>
-#include <dlib/dnn.h>
-#include <dlib/clustering.h>
-
-#include <cstring>
-#include <opencv2/videostab/global_motion.hpp>
-
 
 using namespace dlib;
 using namespace std;

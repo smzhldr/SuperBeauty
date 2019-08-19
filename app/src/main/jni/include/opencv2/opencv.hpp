@@ -52,15 +52,6 @@
 #include "opencv2/core.hpp"
 
 // Then the optional modules are checked
-#ifdef HAVE_OPENCV_FEATURES2D
-#include "opencv2/features2d.hpp"
-#endif
-#ifdef HAVE_OPENCV_DNN
-#include "opencv2/dnn.hpp"
-#endif
-#ifdef HAVE_OPENCV_FLANN
-#include "opencv2/flann.hpp"
-#endif
 #ifdef HAVE_OPENCV_HIGHGUI
 #include "opencv2/highgui.hpp"
 #endif
@@ -75,15 +66,6 @@
 #endif
 #ifdef HAVE_OPENCV_SHAPE
 #include "opencv2/shape.hpp"
-#endif
-#ifdef HAVE_OPENCV_STITCHING
-#include "opencv2/stitching.hpp"
-#endif
-#ifdef HAVE_OPENCV_SUPERRES
-#include "opencv2/superres.hpp"
-#endif
-#ifdef HAVE_OPENCV_VIDEOSTAB
-#include "opencv2/videostab.hpp"
 #endif
 #ifdef HAVE_OPENCV_VIZ
 #include "opencv2/viz.hpp"
