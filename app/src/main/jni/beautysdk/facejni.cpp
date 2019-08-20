@@ -26,11 +26,6 @@ JNIEXPORT jint JNICALL Java_com_smzh_beautysdk_FaceDetector_init
 }
 
 
-JNIEXPORT jint JNICALL Java_com_smzh_beautysdk_FaceDetector_landMarks2
-        (JNIEnv *env, jobject obj, jlong intPtr, jlong outPtr) {
-    return pFaceEngine->detect(intPtr, outPtr);
-}
-
 JNIEXPORT jobjectArray JNICALL Java_com_smzh_beautysdk_FaceDetector_detect
         (JNIEnv *env, jobject obj, jbyteArray data, jint type, jint width, jint height,
          jint orientation) {

@@ -17,14 +17,6 @@ JNIEXPORT jint JNICALL Java_com_smzh_beautysdk_FaceDetector_init
 
 /*
  * Class:     com_smzh_beautysdk_FaceDetector
- * Method:    landMarks2
- * Signature: (JJ)Ljava/lang/String;
- */
-JNIEXPORT jint JNICALL Java_com_smzh_beautysdk_FaceDetector_landMarks2
-  (JNIEnv *, jobject, jlong, jlong);
-
-/*
- * Class:     com_smzh_beautysdk_FaceDetector
  * Method:    detect
  * Signature: ([BIIII)Ljava/lang/Object;
  */

@@ -31,8 +31,6 @@ private:
 public:
     int init(const char *);
 
-    int detect(jlong, jlong);
-
     jobjectArray detect(JNIEnv *, jobject, jbyteArray, jint, jint, jint height, jint);
 
     int destroy();
