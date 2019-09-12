@@ -6,8 +6,7 @@
 
 int FaceEngine::init(const char *sdkPath) {
     detector = dlib::get_frontal_face_detector();
-    dlib::deserialize(sdkPath)
-            >> pose_model; // 68点人脸标记模型 shape_predictor_68_face_landmarks.dat
+    dlib::deserialize(sdkPath) >> pose_model; // 68点人脸标记模型 shape_predictor_68_face_landmarks.dat
     return 1;
 }
 
@@ -18,7 +17,6 @@ jobjectArray FaceEngine::detect(JNIEnv *env, jobject obj, jbyteArray data, jint 
 
     jbyte *ptr = env->GetByteArrayElements(data, 0);
     Mat image = Mat(height, width, CV_8UC4, (unsigned char *) ptr);
-
     jclass faceClass = env->FindClass("com/smzh/beautysdk/Face");
 
     if (image.empty()) {

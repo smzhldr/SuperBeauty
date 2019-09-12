@@ -59,7 +59,7 @@ public class ImageActivity extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             public void run() {
                 long sDetectTime = System.currentTimeMillis();
-                final Face[] faces = faceDetect.detect(CommonUtils.bitmap2bytes(srcBitmap), 0, srcBitmap.getWidth(), srcBitmap.getHeight(), 0);
+                final Face[] faces = faceDetect.detect(CommonUtils.bitmap2bytes(srcBitmap), FaceDetector.TYPE_RGB8888, srcBitmap.getWidth(), srcBitmap.getHeight(), 0);
                 long detectTime = System.currentTimeMillis() - sDetectTime;
                 String detectTimeStr = "检测68点,耗时:" + detectTime + "ms.";
                 Log.d("detect_time", detectTimeStr);
