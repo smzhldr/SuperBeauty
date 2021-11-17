@@ -3,7 +3,8 @@ package com.smzh.beautysdk;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
