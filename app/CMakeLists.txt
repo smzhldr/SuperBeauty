@@ -1,0 +1,57 @@
+cmake_minimum_required(VERSION 3.4.1)
+#add_definitions(-std=c++11)
+
+set(CMAKE_VERBOSE_MAKEFILE on) # opencv
+# 设置native目录
+set(NATIVE_DIR ${CMAKE_SOURCE_DIR}/src/main/jni)
+
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -fexceptions -frtti") # opencv
+
+
+# 设置dlib
+include(${NATIVE_DIR}/dlib/cmake)
+
+# 设置opencv include文件夹
+include_directories(${CMAKE_SOURCE_DIR}/src/main/jniLibs/include)
+
+# 将jni/beautysdk目录中所有文件名，存至SRC_LIST中
+# AUX_SOURCE_DIRECTORY(${NATIVE_DIR}/beautysdk SRC_LIST)
+add_library( # Sets the name of the library.
+        beauty
+        # Sets the library as a shared library.
+        SHARED
+        # Provides a relative path to your source file(s).
+        # ${SRC_LIST}
+        src/main/jni/beautysdk/facejni.cpp
+        src/main/jni/beautysdk/faceengine.cpp)
+
+find_library( # Sets the name of the path variable.
+        log-lib
+        # Specifies the name of the NDK library that
+        # you want CMake to locate.
+        log)
+
+add_library(libopencv_java SHARED IMPORTED ) # 编译成library，参数是库的名字、库的类型、源码s(自己写的JNI文件，可以有多个)
+set_target_properties(libopencv_java PROPERTIES IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libopencv_java4.so")
+
+
+target_link_libraries( # Specifies the target library.
+        beauty
+
+        dlib
+        libopencv_java
+
+        -ljnigraphics
+        # Links the target library to the log library
+        # included in the NDK.
+        ${log-lib})
+
+#target_include_directories(beauty PUBLIC ${CMAKE_SOURCE_DIR}/src/main/jniLibs/include)
+
+
+# 指定release编译选项
+set(CMAKE_BUILD_TYPE "RELEASE")
+set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
+SET(CMAKE_BUILE_TYPE "DEBUG")
+SET(CMAKE_CXX_FLAGS_DEBUG "-g -Wall")

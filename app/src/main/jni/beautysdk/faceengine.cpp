@@ -24,7 +24,7 @@ jobjectArray FaceEngine::detect(JNIEnv *env, jobject obj, jbyteArray data, jint 
     }
     Mat result;
     matrix<bgr_pixel> img;
-    cvtColor(image, result, CV_RGBA2BGR);
+    cvtColor(image, result, COLOR_RGBA2BGR);
     assign_image(img, cv_image<bgr_pixel>(result));
 
     std::vector<dlib::rectangle> dets = detector(img);
