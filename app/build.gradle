@@ -16,10 +16,14 @@ android {
             cmake {
                 arguments "-DCMAKE_BUILD_TYPE=Release",
                         "-DANDROID_STL=c++_shared",
-                        "DANDROID_ARM_NEON=TRUE"
+                        "-DANDROID_ARM_NEON=TRUE"
                 cppFlags "-fexceptions -frtti -std=c++11"
                 abiFilters 'armeabi-v7a', 'arm64-v8a'
             }
+        }
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
     }
     buildTypes {
