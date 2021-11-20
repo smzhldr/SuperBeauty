@@ -7,29 +7,28 @@ import android.view.View
 import android.view.ViewGroup
 
 class EditFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString("")
-            param2 = it.getString("")
+            val picPath = it.getString(PIC_PATH)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_edit, container, false)
     }
 
     companion object {
+
+        const val PIC_PATH = "pic_path"
+
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(path: String) =
                 EditFragment().apply {
                     arguments = Bundle().apply {
-//                        putString(ARG_PARAM1, param1)
-//                        putString(ARG_PARAM2, param2)
+                        putString(PIC_PATH, path)
                     }
                 }
     }
