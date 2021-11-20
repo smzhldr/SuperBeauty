@@ -15,8 +15,6 @@ include_directories(${SRC_DIR}/libs/include)
 
 add_library(facedetector
         SHARED
-        ${SRC_DIR}/beautysdk/facejni.cpp
-        ${SRC_DIR}/beautysdk/faceengine.cpp
         ${SRC_DIR}/src/facedetector_jni.cpp)
 
 find_library(

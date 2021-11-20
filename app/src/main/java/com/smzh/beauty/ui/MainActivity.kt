@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.smzh.beauty.facedetector.CommonUtils
 import com.smzh.superbeauty.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
                 choosePicture()
             }
         }
+        CommonUtils.copyModeToSDCard(this)
     }
 
     private fun addFragment(path:String) {

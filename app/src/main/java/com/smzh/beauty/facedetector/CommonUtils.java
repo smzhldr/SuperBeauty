@@ -3,7 +3,6 @@ package com.smzh.beauty.facedetector;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.os.Environment;
 
 import androidx.annotation.NonNull;
 
@@ -18,47 +17,22 @@ public class CommonUtils {
     static String faceShape68ModelName = "shape_predictor_68_face_landmarks.dat";
 
 
-    private static boolean copyFileFromAssetsToOthers(@NonNull final Context context, @NonNull final String fileName, @NonNull final String targetPath) {
-        InputStream in = null;
-        FileOutputStream out = null;
+    public static boolean copyModeToSDCard(@NonNull final Context context) {
+        File file = new File(getFaceShape68ModelPath(context));
+        if (file.exists()) {
+            return true;
+        }
         try {
-            in = context.getAssets().open(fileName);
-            out = new FileOutputStream(targetPath);
+            FileOutputStream out = new FileOutputStream(getFaceShape68ModelPath(context));
+            InputStream in = context.getAssets().open(faceShape68ModelName);
             byte[] buff = new byte[1024];
-            int read = 0;
+            int read;
             while ((read = in.read(buff)) > 0) {
                 out.write(buff, 0, read);
             }
+            in.close();
+            out.close();
             return true;
-        } catch (Exception e) {
-            return false;
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static boolean copyFaceShape68ModelFile(@NonNull final Context context) {
-        final String targetPath = getFaceShape68ModelPath();
-        try {
-            File file = new File(targetPath);
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdir();
-            }
-            if (!file.exists()) {
-                file.createNewFile();
-                return CommonUtils.copyFileFromAssetsToOthers(context.getApplicationContext(), faceShape68ModelName, targetPath);
-            } else {
-                return true;
-            }
         } catch (Exception e) {
             return false;
         }
@@ -90,10 +64,8 @@ public class CommonUtils {
         return byteBuffer.array();
     }
 
-    public static String getFaceShape68ModelPath() {
-        File sdcard = Environment.getExternalStorageDirectory();
-        String directory = "model";
-        return sdcard.getAbsolutePath() + File.separator + directory + File.separator + faceShape68ModelName;
+    public static String getFaceShape68ModelPath(Context context) {
+       return context.getExternalFilesDir(null) + File.separator + faceShape68ModelName;
     }
 
 }
