@@ -1,8 +1,9 @@
-package com.smzh.beautysdk;
+package com.smzh.beauty.facedetector;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.os.Environment;
 
 import androidx.annotation.NonNull;
 
@@ -13,6 +14,9 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 public class CommonUtils {
+
+    static String faceShape68ModelName = "shape_predictor_68_face_landmarks.dat";
+
 
     private static boolean copyFileFromAssetsToOthers(@NonNull final Context context, @NonNull final String fileName, @NonNull final String targetPath) {
         InputStream in = null;
@@ -43,7 +47,7 @@ public class CommonUtils {
     }
 
     public static boolean copyFaceShape68ModelFile(@NonNull final Context context) {
-        final String targetPath = Constants.getFaceShape68ModelPath();
+        final String targetPath = getFaceShape68ModelPath();
         try {
             File file = new File(targetPath);
             if (!file.getParentFile().exists()) {
@@ -51,7 +55,7 @@ public class CommonUtils {
             }
             if (!file.exists()) {
                 file.createNewFile();
-                return CommonUtils.copyFileFromAssetsToOthers(context.getApplicationContext(), Constants.faceShape68ModelName, targetPath);
+                return CommonUtils.copyFileFromAssetsToOthers(context.getApplicationContext(), faceShape68ModelName, targetPath);
             } else {
                 return true;
             }
@@ -84,6 +88,12 @@ public class CommonUtils {
         ByteBuffer byteBuffer = ByteBuffer.allocate(size1);
         bitmap.copyPixelsToBuffer(byteBuffer);
         return byteBuffer.array();
+    }
+
+    public static String getFaceShape68ModelPath() {
+        File sdcard = Environment.getExternalStorageDirectory();
+        String directory = "model";
+        return sdcard.getAbsolutePath() + File.separator + directory + File.separator + faceShape68ModelName;
     }
 
 }

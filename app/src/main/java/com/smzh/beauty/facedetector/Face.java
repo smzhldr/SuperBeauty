@@ -1,4 +1,4 @@
-package com.smzh.beautysdk;
+package com.smzh.beauty.facedetector;
 
 import android.graphics.PointF;
 import android.graphics.RectF;

@@ -1,4 +1,4 @@
-package com.smzh.superbeauty
+package com.smzh.beauty.ui
 
 import android.content.Context
 import android.opengl.GLSurfaceView
