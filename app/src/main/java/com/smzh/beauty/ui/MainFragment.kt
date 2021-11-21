@@ -6,9 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Rect
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.Environment
+import android.os.*
 import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -32,23 +30,23 @@ class MainFragment : Fragment() {
     private val imageList: ArrayList<ImageView> by lazy {
         arrayListOf(
                 ImageView(context).apply {
-                    setImageResource(R.drawable.face_photo)
+                    setImageResource(R.drawable.ic_yezi)
                     scaleType = ImageView.ScaleType.CENTER_CROP
                 },
                 ImageView(context).apply {
-                    setImageResource(R.drawable.face_photo)
+                    setImageResource(R.drawable.face)
                     scaleType = ImageView.ScaleType.CENTER_CROP
                 },
                 ImageView(context).apply {
-                    setImageResource(R.drawable.face_photo)
+                    setImageResource(R.drawable.face)
                     scaleType = ImageView.ScaleType.CENTER_CROP
                 },
                 ImageView(context).apply {
-                    setImageResource(R.drawable.face_photo)
+                    setImageResource(R.drawable.face)
                     scaleType = ImageView.ScaleType.CENTER_CROP
                 },
                 ImageView(context).apply {
-                    setImageResource(R.drawable.face_photo)
+                    setImageResource(R.drawable.face)
                     scaleType = ImageView.ScaleType.CENTER_CROP
                 }
 
@@ -56,13 +54,17 @@ class MainFragment : Fragment() {
     }
 
     private val menuList: ArrayList<MenuItem> = arrayListOf(
-            MenuItem("发型", 0, R.drawable.menu_hair),
-            MenuItem("滤镜", 0, R.drawable.menu_filter),
-            MenuItem("换装", 0, R.drawable.menu_clothing),
-            MenuItem("贴纸", 0, R.drawable.menu_sticker),
-            MenuItem("调整", 0, R.drawable.menu_adjust),
-            MenuItem("美颜", 0, R.drawable.menu_beauty)
+            MenuItem("发型", R.drawable.ic_hair, R.drawable.menu_hair),
+            MenuItem("滤镜", R.drawable.ic_filter, R.drawable.menu_filter),
+            MenuItem("换装", R.drawable.ic_clothing, R.drawable.menu_clothing),
+            MenuItem("贴纸", R.drawable.ic_sticker, R.drawable.menu_sticker),
+            MenuItem("调整", R.drawable.ic_adjust, R.drawable.menu_adjust),
+            MenuItem("美颜", R.drawable.ic_beauty, R.drawable.menu_beauty)
             )
+
+    private var pageIndex = 0
+
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
@@ -73,12 +75,12 @@ class MainFragment : Fragment() {
         mainViewPager.adapter = object : PagerAdapter() {
 
             override fun instantiateItem(container: ViewGroup, position: Int): Any {
-                container.addView(imageList[position])
-                return imageList[position]
+                container.addView(imageList[position % imageList.size])
+                return imageList[position % imageList.size]
             }
 
             override fun getCount(): Int {
-                return imageList.size
+                return Int.MAX_VALUE
             }
 
             override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -86,7 +88,7 @@ class MainFragment : Fragment() {
             }
 
             override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-                container.removeView(imageList[position])
+                container.removeView(imageList[position % imageList.size])
             }
         }
 
@@ -112,6 +114,21 @@ class MainFragment : Fragment() {
             if (checkPermission()) {
                 choosePicture()
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        switchPage()
+    }
+
+    private fun switchPage() {
+        if (isResumed) {
+            handler.postDelayed({
+                mainViewPager.currentItem  = pageIndex
+                pageIndex++
+                switchPage()
+            }, 3000)
         }
     }
 
@@ -182,10 +199,11 @@ class MainFragment : Fragment() {
 
     inner class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(menuItem: MenuItem) {
-            itemView.menu_title.text = menuItem.name
-            itemView.setBackgroundResource(menuItem.bg)
-            itemView.setOnClickListener {
-
+            itemView.run {
+                menu_title.text = menuItem.name
+                menu_icon.setImageResource(menuItem.icon)
+                setBackgroundResource(menuItem.bg)
+                setOnClickListener {  }
             }
         }
     }

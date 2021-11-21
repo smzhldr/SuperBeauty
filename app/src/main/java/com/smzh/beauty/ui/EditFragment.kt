@@ -32,7 +32,7 @@ class EditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        srcBitmap = BitmapFactory.decodeResource(resources, R.drawable.face_photo);
+        srcBitmap = BitmapFactory.decodeResource(resources, R.drawable.face);
         val width: Double = resources.displayMetrics.widthPixels.toDouble()
         val height: Double = ((srcBitmap.height).toDouble() / srcBitmap.width * width)
         srcBitmap = CommonUtils.scaleWithWH(srcBitmap, width, height)
