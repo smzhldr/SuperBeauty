@@ -27,6 +27,7 @@ public class FaceDetector {
     public void destroyFaceDetector() {
         if (instance != 0) {
             destroy(instance);
+            instance = 0;
         }
     }
 

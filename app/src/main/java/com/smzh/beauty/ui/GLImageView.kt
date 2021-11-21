@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class GPUImageView :GLSurfaceView, GLSurfaceView.Renderer {
+class GLImageView :GLSurfaceView, GLSurfaceView.Renderer {
 
     constructor(context: Context?):super(context)
 
