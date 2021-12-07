@@ -20,9 +20,9 @@ class App : Application() {
     private fun init(context: Context) {
         GlobalScope.launch(Dispatchers.IO) {
             CommonUtils.copyModeToSDCard(context)
-            launch(Dispatchers.Main) {
-                Toast.makeText(context, "资源加载完成", Toast.LENGTH_SHORT).show()
-            }
+//            launch(Dispatchers.Main) {
+//                Toast.makeText(context, "资源加载完成", Toast.LENGTH_SHORT).show()
+//            }
         }
     }
 }

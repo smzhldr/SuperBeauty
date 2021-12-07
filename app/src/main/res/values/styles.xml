@@ -13,4 +13,9 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="EditActivity" parent="AppTheme">
+        <item name="android:statusBarColor">#FFFFFFFF</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
 </resources>

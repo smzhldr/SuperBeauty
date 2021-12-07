@@ -3,12 +3,11 @@ package com.smzh.beauty.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.Rect
+import android.database.Cursor
 import android.net.Uri
 import android.os.*
+import android.provider.MediaStore
 import android.provider.Settings
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +16,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import com.smzh.beauty.facedetector.CommonUtils
+import com.smzh.beauty.ui.EditActivity.Companion.PIC_PATH
 import com.smzh.superbeauty.R
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.menu_item.view.*
@@ -156,9 +157,8 @@ class MainFragment : Fragment() {
     }
 
     private fun choosePicture() {
-        val intent = Intent()
+        val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(intent, 667)
     }
 
@@ -178,13 +178,13 @@ class MainFragment : Fragment() {
                 }
             } else if (requestCode == 667) {
                 val uri = data!!.data
-                val imgPath = uri!!.path
+                val imgPath = CommonUtils.getRealPathFromUri(context, uri)
                 if (imgPath == null) {
                     Toast.makeText(activity, "图片选择失败", Toast.LENGTH_SHORT).show()
                     return
                 }
                 val intent = Intent(activity, EditActivity::class.java)
-                intent.putExtra("PIC_PATH", imgPath)
+                intent.putExtra(PIC_PATH, imgPath)
                 startActivity(intent)
             }
         }

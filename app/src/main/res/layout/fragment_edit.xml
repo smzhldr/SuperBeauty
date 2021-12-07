@@ -1,28 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#FFFFFFFF"
+    android:orientation="vertical"
     tools:context="com.smzh.beauty.ui.EditFragment">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="#FFFFFFFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            app:srcCompat="?attr/homeAsUpIndicator"
+            app:tint="#FF242b33" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:text="@string/share"
+            app:srcCompat="?attr/actionModeShareDrawable"
+            app:tint="#000000" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/saveButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/save"
+            app:srcCompat="@drawable/ic_save"
+            app:tint="#000000" />
+
+    </LinearLayout>
+
+    <com.smzh.beauty.opengl.GLImageView
+        android:id="@+id/glImageView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_above="@+id/menu_bar"
+        android:layout_below="@+id/toolbar" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/menu_bar"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="20dp"
+            android:thumb="@drawable/thumb"
+            android:progressDrawable="@drawable/seekbar_bg"
+            android:layout_marginEnd="20dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/menu_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_above="@id/split_line"
+        android:orientation="vertical">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <View
+        android:id="@+id/split_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/bottom_bar"
+        android:background="@android:color/darker_gray" />
+
 
     <LinearLayout
+        android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:background="@color/colorAccent"
-        android:layout_height="60dp"/>
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/menu_beauty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/menu_beauty" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/menu_filter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/menu_filter" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/menu_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/menu_edit" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/menu_adjust"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/menu_adjust" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/menu_sticker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/menu_sticker" />
+
+    </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:background="@color/design_default_color_error"
-        android:layout_height="50dp"/>
-
-
-</LinearLayout>
+</RelativeLayout>
