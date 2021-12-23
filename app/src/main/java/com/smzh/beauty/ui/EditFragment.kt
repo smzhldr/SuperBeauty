@@ -14,6 +14,7 @@ import com.smzh.beauty.facedetector.CommonUtils
 import com.smzh.beauty.facedetector.Face
 import com.smzh.beauty.facedetector.FaceDetector
 import com.smzh.beauty.opengl.GLImageSource
+import com.smzh.beauty.opengl.ZoomGPUImageView
 import com.smzh.beauty.ui.EditActivity.Companion.PIC_PATH
 import com.smzh.superbeauty.R
 import kotlinx.android.synthetic.main.fragment_edit.*
@@ -21,7 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class EditFragment : Fragment(), View.OnClickListener {
+class EditFragment : Fragment(), View.OnClickListener, ZoomGPUImageView.OuterMatrixChangedListener {
 
     private lateinit var glImageSource: GLImageSource
     private var path: String? = null
@@ -73,6 +74,7 @@ class EditFragment : Fragment(), View.OnClickListener {
         glImageSource = GLImageSource(width.toInt(), height.toInt())
         glImageSource.setBitmap(srcBitmap)
         glImageView.setSource(glImageSource)
+        glImageView.addOuterMatrixChangedListener(this)
 
 
 //        GlobalScope.launch(Dispatchers.IO) {
@@ -82,6 +84,12 @@ class EditFragment : Fragment(), View.OnClickListener {
 //            faceDetector.destroyFaceDetector()
 //        }
 
+    }
+
+    override fun onOuterMatrixChanged(transformedMatrix: Matrix?) {
+        transformedMatrix?.let {
+            glImageView.setImageMatrix(it)
+        }
     }
 
     override fun onClick(v: View?) {

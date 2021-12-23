@@ -1,24 +1,29 @@
 package com.smzh.beauty.opengl
 
 import android.content.Context
+import android.graphics.Matrix
 import android.graphics.PixelFormat
+import android.graphics.RectF
 import android.opengl.GLES30
 import android.opengl.GLSurfaceView
 import android.util.AttributeSet
+import android.util.Log
 import java.util.*
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 
-class GLImageView : GLSurfaceView {
+open class GLImageView : GLSurfaceView {
 
     private var renderer: GLRenderer? = null
 
-    constructor(context: Context?) : super(context)
+    constructor(context: Context?) : this(context, null)
 
-    constructor(context: Context?, attributeSet: AttributeSet) : super(context, attributeSet)
+    constructor(context: Context?, attributeSet: AttributeSet?) : super(context, attributeSet) {
+        init()
+    }
 
-    init {
+    private fun init() {
         if (renderer == null) {
             renderer = GLRenderer()
             setEGLContextClientVersion(3)
@@ -41,6 +46,23 @@ class GLImageView : GLSurfaceView {
         requestRender()
     }
 
+    fun getImageWidth(): Int {
+        return if (renderer == null)  0 else renderer!!.imageWidth
+    }
+
+    fun getImageHeight(): Int {
+        return if (renderer == null)  0 else renderer!!.imageHeight
+    }
+
+    fun setImageMatrix(matrix: Matrix) {
+        queueEvent {
+            renderer?.screenFilter?.run {
+                this.setImageMatrix(matrix)
+                requestRender()
+            }
+        }
+    }
+
     inner class GLRenderer internal constructor() : Renderer {
         private var iSource: ISource? = null
         val screenFilter by lazy { OutScreenFilter(context) }
@@ -50,6 +72,12 @@ class GLImageView : GLSurfaceView {
         private var disable = false
         private var outWidth = 0
         private var outHeight = 0
+
+        @Volatile
+        var imageWidth = 0
+
+        @Volatile
+        var imageHeight = 0
 
         override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
 
@@ -67,6 +95,10 @@ class GLImageView : GLSurfaceView {
             runAll(runOnDraw)
             iSource?.run {
                 val frame: IFilter.Frame? = createFrame()
+                frame?.let {
+                    imageWidth = it.textureWidth
+                    imageHeight = it.textureHeight
+                }
                 frame?.let {
                     filter?.run {
                         if (!disable) {

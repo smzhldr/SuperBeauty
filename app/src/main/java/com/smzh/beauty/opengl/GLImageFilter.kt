@@ -24,11 +24,11 @@ abstract class GLImageFilter @JvmOverloads constructor(protected var context: Co
     private var isRendererScreen = false
     private val cubeBuffer = ByteBuffer.allocateDirect(8 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer()
     private val textureBuffer = ByteBuffer.allocateDirect(8 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer()
-    protected var cube: FloatArray = floatArrayOf(-1.0f, 1.0f,
+    protected val cube: FloatArray = floatArrayOf(-1.0f, 1.0f,
             1.0f, 1.0f,
             -1.0f, -1.0f,
             1.0f, -1.0f)
-    protected var textureCords: FloatArray = floatArrayOf(0.0f, 0.0f,
+    protected val textureCords: FloatArray = floatArrayOf(0.0f, 0.0f,
             1.0f, 0.0f,
             0.0f, 1.0f,
             1.0f, 1.0f)
@@ -93,15 +93,19 @@ abstract class GLImageFilter @JvmOverloads constructor(protected var context: Co
     }
 
     fun setTextureCoordination(coordination: FloatArray) {
-        textureCords = coordination
+        for (index in coordination.indices) {
+            textureCords[index] = coordination[index]
+        }
     }
 
     fun setOutSize(outputWidth: Int, outputHeight: Int) {
         outSize = Size(outputWidth, outputHeight)
     }
 
-    fun setVerticesCoordination(coordination: FloatArray) {
-        cube = coordination
+    fun setVerticesCoordination(vertices: FloatArray) {
+        for (index in vertices.indices) {
+            cube[index] = vertices[index]
+        }
     }
 
     private fun updateFrame(width: Int, height: Int) {
@@ -138,6 +142,19 @@ abstract class GLImageFilter @JvmOverloads constructor(protected var context: Co
         selfFrame = null
         outputWidth = 0
         outputHeight = 0
+    }
+
+    companion object {
+
+        val VERTICES: FloatArray = floatArrayOf(-1.0f, 1.0f,
+                1.0f, 1.0f,
+                -1.0f, -1.0f,
+                1.0f, -1.0f)
+        val TEXTURECOOED: FloatArray = floatArrayOf(0.0f, 0.0f,
+                1.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f)
+
     }
 
 }

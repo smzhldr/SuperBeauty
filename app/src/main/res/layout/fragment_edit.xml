@@ -50,23 +50,23 @@
 
     </LinearLayout>
 
-    <com.smzh.beauty.opengl.GLImageView
+    <com.smzh.beauty.opengl.ZoomGPUImageView
         android:id="@+id/glImageView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_above="@+id/menu_bar"
         android:layout_below="@+id/toolbar" />
 
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/menu_bar"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="20dp"
-            android:thumb="@drawable/thumb"
-            android:progressDrawable="@drawable/seekbar_bg"
-            android:layout_marginEnd="20dp" />
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/menu_bar"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:progressDrawable="@drawable/seekbar_bg"
+        android:thumb="@drawable/thumb" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/menu_bar"
