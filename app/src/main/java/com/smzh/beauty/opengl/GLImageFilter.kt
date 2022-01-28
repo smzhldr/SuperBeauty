@@ -33,6 +33,8 @@ abstract class GLImageFilter @JvmOverloads constructor(protected var context: Co
             0.0f, 1.0f,
             1.0f, 1.0f)
 
+
+
     private fun init() {
         if (!hasInit) {
             glProgramId = loadProgram(context!!, vertexResId, fragmentResId)

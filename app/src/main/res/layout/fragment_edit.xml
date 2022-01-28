@@ -50,7 +50,7 @@
 
     </LinearLayout>
 
-    <com.smzh.beauty.opengl.ZoomGPUImageView
+    <com.smzh.beauty.opengl.GLImageView
         android:id="@+id/glImageView"
         android:layout_width="match_parent"
         android:layout_height="0dp"

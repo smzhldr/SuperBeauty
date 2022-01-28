@@ -41,26 +41,13 @@ open class GLImageView : GLSurfaceView {
         }
     }
 
-    fun adjustImageSize(width: Int, height: Int) {
-        renderer?.screenFilter?.setOutSize(width, height)
-        requestRender()
+    fun setFilter(filter: IFilter) {
+        renderer?.setFilter(filter)
     }
 
-    fun getImageWidth(): Int {
-        return if (renderer == null)  0 else renderer!!.imageWidth
-    }
-
-    fun getImageHeight(): Int {
-        return if (renderer == null)  0 else renderer!!.imageHeight
-    }
-
-    fun setImageMatrix(matrix: Matrix) {
-        queueEvent {
-            renderer?.screenFilter?.run {
-                this.setImageMatrix(matrix)
-                requestRender()
-            }
-        }
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        renderer?.clear()
     }
 
     inner class GLRenderer internal constructor() : Renderer {
@@ -115,6 +102,9 @@ open class GLImageView : GLSurfaceView {
             iSource?.destroy()
             iSource = null
             screenFilter.destroy()
+            runOnDraw(Runnable {
+                this@GLRenderer.filter?.destroy()
+            })
         }
 
         fun setFilter(filter: IFilter) {
